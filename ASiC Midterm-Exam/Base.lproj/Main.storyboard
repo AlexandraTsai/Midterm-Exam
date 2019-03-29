@@ -37,7 +37,7 @@
                                 </constraints>
                                 <state key="normal" image="fast_forward"/>
                                 <connections>
-                                    <action selector="clickOnPlayBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0yl-9N-GJa"/>
+                                    <action selector="fastForwardBtnTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Oca-xx-P4l"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sQq-IZ-0Jq">
@@ -83,7 +83,7 @@
                                 </constraints>
                                 <state key="normal" image="rewind"/>
                                 <connections>
-                                    <action selector="clickOnPlayBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5iX-h0-Lmu"/>
+                                    <action selector="backwardBtnTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cEu-t8-6cY"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D4C-Ls-2rO">

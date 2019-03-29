@@ -52,11 +52,25 @@ class ViewController: UIViewController {
     }
     
     @IBAction func videoSliderChange(_ slider: UISlider) {
+        
         let seconds : Int64 = Int64(slider.value)
         let targetTime:CMTime = CMTimeMake(value: seconds, timescale: 1)
         
         player!.seek(to: targetTime)
     }
+    
+    
+    @IBAction func fastForwardBtnTapped(_ sender: Any) {
+        
+        videoSlider.value += 10.0
+        changePlayingTime(sliderValue: videoSlider.value)
+    }
+    @IBAction func backwardBtnTapped(_ sender: Any) {
+        
+        videoSlider.value -= 10.0
+        changePlayingTime(sliderValue: videoSlider.value)
+    }
+    
 }
 
 extension ViewController {
@@ -113,12 +127,7 @@ extension ViewController {
     
     func play() {
         
-        let seconds : Int64 = Int64(videoSlider.value)
-        let targetTime:CMTime = CMTimeMake(value: seconds, timescale: 1)
-        
-        player!.seek(to: targetTime)
-        
-        player?.play()
+        changePlayingTime(sliderValue: videoSlider.value)
         playBtn.setImage(UIImage.asset(.stop), for: .normal)
    
     }
@@ -164,6 +173,17 @@ extension ViewController {
             player?.removeTimeObserver(timeObserverToken)
             self.timeObserverToken = nil
         }
+    }
+    
+    func changePlayingTime(sliderValue: Float) {
+        
+        let seconds : Int64 = Int64(sliderValue)
+        let targetTime:CMTime = CMTimeMake(value: seconds, timescale: 1)
+        
+        player!.seek(to: targetTime)
+        
+        player?.play()
+        
     }
 }
 
