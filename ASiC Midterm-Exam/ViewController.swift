@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var videoView: UIView!
     @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var videoSlider: UISlider!
     @IBOutlet weak var volumeBtn: UIButton!
     @IBOutlet weak var playBtn: UIButton!
     
@@ -27,28 +28,6 @@ class ViewController: UIViewController {
     
     var playerItem: AVPlayerItem!
     var timeObserverToken: Any?
-    
-    func addPeriodicTimeObserver() {
-        // Notify every half second
-        let timeScale = CMTimeScale(NSEC_PER_SEC)
-        let time = CMTime(seconds: 0.5, preferredTimescale: timeScale)
-        
-        timeObserverToken = player?.addPeriodicTimeObserver(forInterval: time, queue: .main) { [weak self] time in
-            
-            guard let currentTime = self?.player?.currentTime().second else {
-                return
-            }
-                                                            
-            self?.currentTime.time = currentTime
-        }
-    }
-    
-    func removePeriodicTimeObserver() {
-        if let timeObserverToken = timeObserverToken {
-            player?.removeTimeObserver(timeObserverToken)
-            self.timeObserverToken = nil
-        }
-    }
     
     @IBAction func clickOnPlayBtn(_ sender: Any) {
         
@@ -72,6 +51,12 @@ class ViewController: UIViewController {
         
     }
     
+    @IBAction func videoSliderChange(_ slider: UISlider) {
+        let seconds : Int64 = Int64(slider.value)
+        let targetTime:CMTime = CMTimeMake(value: seconds, timescale: 1)
+        
+        player!.seek(to: targetTime)
+    }
 }
 
 extension ViewController {
@@ -86,7 +71,6 @@ extension ViewController {
         videoView.layer.addSublayer(layer!)
         
         addTimeObserver()
-        
         addPeriodicTimeObserver()
         
     }
@@ -115,7 +99,6 @@ extension ViewController {
     //Volume
     func turnUpSound() {
         
-       
         player?.volume = 1.0
         volumeBtn.setImage(UIImage.asset(.volume_up), for: .normal)
     
@@ -129,6 +112,12 @@ extension ViewController {
     }
     
     func play() {
+        
+        let seconds : Int64 = Int64(videoSlider.value)
+        let targetTime:CMTime = CMTimeMake(value: seconds, timescale: 1)
+        
+        player!.seek(to: targetTime)
+        
         player?.play()
         playBtn.setImage(UIImage.asset(.stop), for: .normal)
    
@@ -153,7 +142,28 @@ extension ViewController {
             
             
         })
+    }
+    
+    func addPeriodicTimeObserver() {
+        // Notify every half second
+        let timeScale = CMTimeScale(NSEC_PER_SEC)
+        let time = CMTime(seconds: 0.5, preferredTimescale: timeScale)
         
+        timeObserverToken = player?.addPeriodicTimeObserver(forInterval: time, queue: .main) { [weak self] time in
+            
+            guard let currentTime = self?.player?.currentTime().second else {
+                return
+            }
+            
+            self?.currentTime.time = currentTime
+        }
+    }
+    
+    func removePeriodicTimeObserver() {
+        if let timeObserverToken = timeObserverToken {
+            player?.removeTimeObserver(timeObserverToken)
+            self.timeObserverToken = nil
+        }
     }
 }
 
