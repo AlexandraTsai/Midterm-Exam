@@ -62,7 +62,6 @@ class ViewController: UIViewController {
         let seconds : Int64 = Int64(slider.value)
         let targetTime:CMTime = CMTimeMake(value: seconds, timescale: 1)
         
-        
         player!.seek(to: targetTime)
     }
     
@@ -107,7 +106,6 @@ class ViewController: UIViewController {
         addTimeObserver()
         addPeriodicTimeObserver()
 
-  
     }
     
     @IBAction func fullScreenBtnTapped(_ sender: Any) {
@@ -130,16 +128,21 @@ extension ViewController {
         super.viewDidLoad()
         
         setupNavigationBar()
- 
-//        addTimeObserver()
-//        addPeriodicTimeObserver()
-//        
+
         changeOrientation()
         
         makeImageTemplate()
         makeblackBtn()
         
         hideKeyboard()
+        
+        videoSlider.addTarget(self, action: #selector(sliderValueChanged(slider:)), for: .touchDown)
+    }
+    
+    @objc func sliderValueChanged(slider: UISlider) {
+        
+        player?.seek(to: CMTime(seconds: Double(slider.value), preferredTimescale: 1))
+//        timeLabel.text
     }
     
     override func viewDidLayoutSubviews() {
@@ -220,16 +223,28 @@ extension ViewController {
     
     func addPeriodicTimeObserver() {
         // Notify every half second
-        let timeScale = CMTimeScale(NSEC_PER_SEC)
-        let time = CMTime(seconds: 0.5, preferredTimescale: timeScale)
+//        let timeScale = CMTimeScale(NSEC_PER_SEC)
+//        let time = CMTime(seconds: 0.5, preferredTimescale: timeScale)
+//
+//        timeObserverToken = player?.addPeriodicTimeObserver(forInterval: time, queue: .main) { [weak self] time in
+//
+//            guard let currentTime = self?.player?.currentTime().second else {
+//                return
+//            }
+//
+//            self?.currentTime.time = currentTime
+////            self?.videoSlider.value = Float(currentTime)
+//
+//        }
         
+        let timeScale = CMTimeScale(NSEC_PER_SEC)
+        let time = CMTime(seconds: 0.1, preferredTimescale: timeScale)
         timeObserverToken = player?.addPeriodicTimeObserver(forInterval: time, queue: .main) { [weak self] time in
+            // update player transport UI
+            self?.videoSlider.value = Float(time.seconds)
+            self?.currentTime.time = Int(time.second)
+           
             
-            guard let currentTime = self?.player?.currentTime().second else {
-                return
-            }
-            
-            self?.currentTime.time = currentTime
         }
     }
     
@@ -243,6 +258,7 @@ extension ViewController {
     func changePlayingTime(sliderValue: Float) {
         
         let seconds : Int64 = Int64(sliderValue)
+        
         let targetTime:CMTime = CMTimeMake(value: seconds, timescale: 1)
         
         player!.seek(to: targetTime)
