@@ -223,19 +223,6 @@ extension ViewController {
     
     func addPeriodicTimeObserver() {
         // Notify every half second
-//        let timeScale = CMTimeScale(NSEC_PER_SEC)
-//        let time = CMTime(seconds: 0.5, preferredTimescale: timeScale)
-//
-//        timeObserverToken = player?.addPeriodicTimeObserver(forInterval: time, queue: .main) { [weak self] time in
-//
-//            guard let currentTime = self?.player?.currentTime().second else {
-//                return
-//            }
-//
-//            self?.currentTime.time = currentTime
-////            self?.videoSlider.value = Float(currentTime)
-//
-//        }
         
         let timeScale = CMTimeScale(NSEC_PER_SEC)
         let time = CMTime(seconds: 0.1, preferredTimescale: timeScale)
