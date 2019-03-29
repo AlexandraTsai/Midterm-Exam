@@ -16,10 +16,14 @@ class ViewController: UIViewController {
     @IBOutlet weak var searchBtn: UIButton!
     @IBOutlet weak var videoView: UIView!
     @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var endTimeLabel: UILabel!
     @IBOutlet weak var videoSlider: UISlider!
+    
     @IBOutlet weak var volumeBtn: UIButton!
     @IBOutlet weak var playBtn: UIButton!
     @IBOutlet weak var fullScreenBtn: UIButton!
+    @IBOutlet weak var forwardBtn: UIButton!
+    @IBOutlet weak var backwardBtn: UIButton!
     
     var player: AVPlayer?
     
@@ -93,10 +97,13 @@ class ViewController: UIViewController {
         switch UIDevice.current.orientation.rawValue {
         case 1:
             UIDevice.current.setValue(UIInterfaceOrientation.landscapeRight.rawValue, forKey: "orientation")
+            
         case 3:
             UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+            
         default: break
         }
+        changeOrientation()
     }
 }
 
@@ -104,6 +111,7 @@ extension ViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupNavigationBar()
         
         let remoteURL = NSURL(string: "https://s3-ap-northeast-1.amazonaws.com/mid-exam/Video/taeyeon.mp4")
@@ -115,7 +123,10 @@ extension ViewController {
         addTimeObserver()
         addPeriodicTimeObserver()
         
-        settingForLandscape()
+        changeOrientation()
+        
+        makeImageTemplate()
+        makeblackBtn()
     }
     
     override func viewDidLayoutSubviews() {
@@ -126,6 +137,20 @@ extension ViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         removePeriodicTimeObserver()
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        if UIDevice.current.orientation.isLandscape {
+           
+            makeWhiteBtn()
+            
+        } else {
+          
+            makeblackBtn()
+
+        }
     }
     
 }
@@ -143,27 +168,35 @@ extension ViewController {
     func turnUpSound() {
         
         player?.volume = 1.0
-        volumeBtn.setImage(UIImage.asset(.volume_up), for: .normal)
+//        volumeBtn.setImage(UIImage.asset(.volume_up), for: .normal)
+        volumeBtn.setImage(ImageAsset.volume_up.imageTemplate, for: .normal)
+
     
     }
     
     func turnOffSound(){
       
         player?.volume = 0.0
-        volumeBtn.setImage(UIImage.asset(.volume_off), for: .normal)
+//        volumeBtn.setImage(UIImage.asset(.volume_off), for: .normal)
+        volumeBtn.setImage(ImageAsset.volume_off.imageTemplate, for: .normal)
+        
 
     }
     
     func play() {
         
         changePlayingTime(sliderValue: videoSlider.value)
-        playBtn.setImage(UIImage.asset(.stop), for: .normal)
-   
+        
+        playBtn.setImage(ImageAsset.stop.imageTemplate, for: .normal)
+
     }
     
     func pause() {
+        
         player?.pause()
-        playBtn.setImage(UIImage.asset(.play_button), for: .normal)
+    
+        playBtn.setImage(ImageAsset.play_button.imageTemplate, for: .normal)
+
     }
     
     func addTimeObserver(){
@@ -215,14 +248,50 @@ extension ViewController {
         
     }
     
-    func settingForLandscape() {
+    func changeOrientation() {
+        
         if UIDevice.current.orientation.isLandscape {
             navigationController?.navigationBar.isHidden = true
             textField.isHidden = true
             searchBtn.isHidden = true
-        fullScreenBtn.setImage(UIImage.asset(.full_screen_exit), for: .normal)
+            fullScreenBtn.setImage(ImageAsset.full_screen_exit.imageTemplate, for: .normal)
+            timeLabel.textColor = UIColor.white
+            endTimeLabel.textColor = UIColor.white
+            
+        } else {
+            navigationController?.navigationBar.isHidden = false
+            textField.isHidden = false
+            searchBtn.isHidden = false
+            fullScreenBtn.setImage(ImageAsset.full_screen_button.imageTemplate, for: .normal)
+            timeLabel.tintColor = UIColor.black
+            endTimeLabel.textColor = UIColor.black
             
         }
+    }
+    
+    func makeImageTemplate() {
+        playBtn.setImage(ImageAsset.play_button.imageTemplate, for: .normal)
+        volumeBtn.setImage(ImageAsset.volume_up.imageTemplate, for: .normal)
+        forwardBtn.setImage(ImageAsset.fast_forward.imageTemplate, for: .normal)
+        backwardBtn.setImage(ImageAsset.rewind.imageTemplate, for: .normal)
+        fullScreenBtn.setImage(ImageAsset.full_screen_button.imageTemplate, for: .normal)
+       
+    }
+    
+    func makeblackBtn() {
+        playBtn.tintColor = UIColor.black
+        volumeBtn.tintColor = UIColor.black
+        forwardBtn.tintColor = UIColor.black
+        backwardBtn.tintColor = UIColor.black
+        fullScreenBtn.tintColor = UIColor.black
+    }
+    
+    func makeWhiteBtn() {
+        playBtn.tintColor = UIColor.white
+        volumeBtn.tintColor = UIColor.white
+        forwardBtn.tintColor = UIColor.white
+        backwardBtn.tintColor = UIColor.white
+        fullScreenBtn.tintColor = UIColor.white
     }
 }
 

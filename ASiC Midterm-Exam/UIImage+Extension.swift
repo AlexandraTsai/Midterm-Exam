@@ -19,6 +19,15 @@ enum ImageAsset: String {
     case volume_off
     case volume_up
     
+    var imageTemplate: UIImage {
+        
+        let origImage = UIImage(named: self.rawValue)
+        guard let tintedImage = origImage?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate) else { return UIImage()}
+        
+        return tintedImage
+        
+    }
+  
 }
 
 extension UIImage {
@@ -28,4 +37,14 @@ extension UIImage {
         return UIImage(named: asset.rawValue)
     }
     
+    static func makeTemplate(_ asset: ImageAsset) -> UIImage? {
+        
+        let origImage = UIImage(named: asset.rawValue)
+        let tintedImage = origImage?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
+        
+        return tintedImage
+    }
+   
 }
+
+
