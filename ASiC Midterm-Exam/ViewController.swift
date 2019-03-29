@@ -12,11 +12,14 @@ import CoreMedia
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var searchBtn: UIButton!
     @IBOutlet weak var videoView: UIView!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var videoSlider: UISlider!
     @IBOutlet weak var volumeBtn: UIButton!
     @IBOutlet weak var playBtn: UIButton!
+    @IBOutlet weak var fullScreenBtn: UIButton!
     
     var player: AVPlayer?
     
@@ -71,6 +74,30 @@ class ViewController: UIViewController {
         changePlayingTime(sliderValue: videoSlider.value)
     }
     
+    @IBAction func clickOnSearchBtn(_ sender: Any) {
+        
+        guard textField.text != "" else {
+            return
+        }
+        
+        let remoteURL = NSURL(string: "https://s3-ap-northeast-1.amazonaws.com/mid-exam/Video/taeyeon.mp4")
+        self.player = AVPlayer(url: remoteURL! as URL)
+        layer = AVPlayerLayer(player: self.player)
+        
+        videoView.layer.addSublayer(layer!)
+     
+    }
+    
+    @IBAction func fullScreenBtnTapped(_ sender: Any) {
+        
+        switch UIDevice.current.orientation.rawValue {
+        case 1:
+            UIDevice.current.setValue(UIInterfaceOrientation.landscapeRight.rawValue, forKey: "orientation")
+        case 3:
+            UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+        default: break
+        }
+    }
 }
 
 extension ViewController {
@@ -78,6 +105,7 @@ extension ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
+        
         let remoteURL = NSURL(string: "https://s3-ap-northeast-1.amazonaws.com/mid-exam/Video/taeyeon.mp4")
         self.player = AVPlayer(url: remoteURL! as URL)
         layer = AVPlayerLayer(player: self.player)
@@ -87,6 +115,7 @@ extension ViewController {
         addTimeObserver()
         addPeriodicTimeObserver()
         
+        settingForLandscape()
     }
     
     override func viewDidLayoutSubviews() {
@@ -184,6 +213,16 @@ extension ViewController {
         
         player?.play()
         
+    }
+    
+    func settingForLandscape() {
+        if UIDevice.current.orientation.isLandscape {
+            navigationController?.navigationBar.isHidden = true
+            textField.isHidden = true
+            searchBtn.isHidden = true
+        fullScreenBtn.setImage(UIImage.asset(.full_screen_exit), for: .normal)
+            
+        }
     }
 }
 
