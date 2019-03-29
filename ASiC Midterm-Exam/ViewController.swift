@@ -83,6 +83,13 @@ class ViewController: UIViewController {
             return
         }
         guard textField.text == "https://s3-ap-northeast-1.amazonaws.com/mid-exam/Video/taeyeon.mp4" else {
+            
+            if let count = videoView.layer.sublayers?.count {
+                
+               if count > 1 {
+                    layer?.removeFromSuperlayer()
+                }
+            }
             return
         }
         
