@@ -45,8 +45,7 @@ class ViewController: UIViewController {
             pause()
         }
     }
-    
-    
+        
     @IBAction func volumnButtonTapped(_ sender: Any) {
        
         switch player?.volume {
@@ -83,13 +82,19 @@ class ViewController: UIViewController {
         guard textField.text != "" else {
             return
         }
+        guard textField.text == "https://s3-ap-northeast-1.amazonaws.com/mid-exam/Video/taeyeon.mp4" else {
+            return
+        }
         
         let remoteURL = NSURL(string: "https://s3-ap-northeast-1.amazonaws.com/mid-exam/Video/taeyeon.mp4")
         self.player = AVPlayer(url: remoteURL! as URL)
         layer = AVPlayerLayer(player: self.player)
         
+        layer?.frame = videoView.bounds
         videoView.layer.addSublayer(layer!)
-     
+
+        player?.play()
+  
     }
     
     @IBAction func fullScreenBtnTapped(_ sender: Any) {
@@ -113,13 +118,7 @@ extension ViewController {
         super.viewDidLoad()
         
         setupNavigationBar()
-        
-        let remoteURL = NSURL(string: "https://s3-ap-northeast-1.amazonaws.com/mid-exam/Video/taeyeon.mp4")
-        self.player = AVPlayer(url: remoteURL! as URL)
-        layer = AVPlayerLayer(player: self.player)
-        
-        videoView.layer.addSublayer(layer!)
-        
+ 
         addTimeObserver()
         addPeriodicTimeObserver()
         
@@ -171,7 +170,6 @@ extension ViewController {
 
         volumeBtn.setImage(ImageAsset.volume_up.imageTemplate, for: .normal)
 
-    
     }
     
     func turnOffSound(){
@@ -180,7 +178,6 @@ extension ViewController {
 
         volumeBtn.setImage(ImageAsset.volume_off.imageTemplate, for: .normal)
         
-
     }
     
     func play() {
@@ -262,7 +259,7 @@ extension ViewController {
             textField.isHidden = false
             searchBtn.isHidden = false
             fullScreenBtn.setImage(ImageAsset.full_screen_button.imageTemplate, for: .normal)
-            timeLabel.tintColor = UIColor.black
+            timeLabel.textColor = UIColor.black
             endTimeLabel.textColor = UIColor.black
             
         }
