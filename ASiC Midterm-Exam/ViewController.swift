@@ -62,6 +62,7 @@ class ViewController: UIViewController {
         let seconds : Int64 = Int64(slider.value)
         let targetTime:CMTime = CMTimeMake(value: seconds, timescale: 1)
         
+        
         player!.seek(to: targetTime)
     }
     
@@ -101,19 +102,23 @@ class ViewController: UIViewController {
         videoView.layer.addSublayer(layer!)
 
         player?.play()
+        playBtn.setImage(ImageAsset.stop.imageTemplate, for: .normal)
+        
+        addTimeObserver()
+        addPeriodicTimeObserver()
+
   
     }
     
     @IBAction func fullScreenBtnTapped(_ sender: Any) {
         
-        switch UIDevice.current.orientation.rawValue {
-        case 1:
+        switch UIDevice.current.orientation.isPortrait {
+        case true:
             UIDevice.current.setValue(UIInterfaceOrientation.landscapeRight.rawValue, forKey: "orientation")
             
-        case 3:
+        case false:
             UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
             
-        default: break
         }
         changeOrientation()
     }
@@ -126,13 +131,15 @@ extension ViewController {
         
         setupNavigationBar()
  
-        addTimeObserver()
-        addPeriodicTimeObserver()
-        
+//        addTimeObserver()
+//        addPeriodicTimeObserver()
+//        
         changeOrientation()
         
         makeImageTemplate()
         makeblackBtn()
+        
+        hideKeyboard()
     }
     
     override func viewDidLayoutSubviews() {
@@ -148,15 +155,8 @@ extension ViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
-        if UIDevice.current.orientation.isLandscape {
-           
-            makeWhiteBtn()
-            
-        } else {
-          
-            makeblackBtn()
-
-        }
+        changeOrientation()
+    
     }
     
 }
@@ -249,6 +249,8 @@ extension ViewController {
         
         player?.play()
         
+        playBtn.setImage(ImageAsset.stop.imageTemplate, for: .normal)
+        
     }
     
     func changeOrientation() {
@@ -260,6 +262,7 @@ extension ViewController {
             fullScreenBtn.setImage(ImageAsset.full_screen_exit.imageTemplate, for: .normal)
             timeLabel.textColor = UIColor.white
             endTimeLabel.textColor = UIColor.white
+            makeWhiteBtn()
             
         } else {
             navigationController?.navigationBar.isHidden = false
@@ -268,7 +271,7 @@ extension ViewController {
             fullScreenBtn.setImage(ImageAsset.full_screen_button.imageTemplate, for: .normal)
             timeLabel.textColor = UIColor.black
             endTimeLabel.textColor = UIColor.black
-            
+            makeblackBtn()
         }
     }
     
@@ -298,3 +301,17 @@ extension ViewController {
     }
 }
 
+extension UIViewController
+{
+    func hideKeyboard() {
+    
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer( target: self, action: #selector(UIViewController.dismissKeyboard))
+        
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
