@@ -14,6 +14,8 @@
 		A8386811224DA7ED006353BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A8386810224DA7ED006353BE /* Assets.xcassets */; };
 		A8386814224DA7ED006353BE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A8386812224DA7ED006353BE /* LaunchScreen.storyboard */; };
 		A8537935224DBDFB00AC5DB5 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8537934224DBDFB00AC5DB5 /* UIImage+Extension.swift */; };
+		A8537937224DD82E00AC5DB5 /* CMTime+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8537936224DD82E00AC5DB5 /* CMTime+Extension.swift */; };
+		A8537939224DD97400AC5DB5 /* VideoTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8537938224DD97400AC5DB5 /* VideoTime.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		A8386813224DA7ED006353BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A8386815224DA7ED006353BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A8537934224DBDFB00AC5DB5 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		A8537936224DD82E00AC5DB5 /* CMTime+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CMTime+Extension.swift"; sourceTree = "<group>"; };
+		A8537938224DD97400AC5DB5 /* VideoTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTime.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +70,8 @@
 				A8386815224DA7ED006353BE /* Info.plist */,
 				A838680D224DA7E8006353BE /* ASiC_Midterm_Exam.xcdatamodeld */,
 				A8537934224DBDFB00AC5DB5 /* UIImage+Extension.swift */,
+				A8537936224DD82E00AC5DB5 /* CMTime+Extension.swift */,
+				A8537938224DD97400AC5DB5 /* VideoTime.swift */,
 			);
 			path = "ASiC Midterm-Exam";
 			sourceTree = "<group>";
@@ -145,6 +151,8 @@
 				A8537935224DBDFB00AC5DB5 /* UIImage+Extension.swift in Sources */,
 				A838680F224DA7E8006353BE /* ASiC_Midterm_Exam.xcdatamodeld in Sources */,
 				A8386807224DA7E8006353BE /* AppDelegate.swift in Sources */,
+				A8537939224DD97400AC5DB5 /* VideoTime.swift in Sources */,
+				A8537937224DD82E00AC5DB5 /* CMTime+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

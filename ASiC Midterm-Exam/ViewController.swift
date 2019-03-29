@@ -8,10 +8,12 @@
 
 import UIKit
 import AVFoundation
+import CoreMedia
 
 class ViewController: UIViewController {
     
     @IBOutlet weak var videoView: UIView!
+    @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var volumeBtn: UIButton!
     @IBOutlet weak var playBtn: UIButton!
     
@@ -19,21 +21,33 @@ class ViewController: UIViewController {
     
     var layer: AVPlayerLayer?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupNavigationBar()
-        let remoteURL = NSURL(string: "https://s3-ap-northeast-1.amazonaws.com/mid-exam/Video/taeyeon.mp4")
-        self.player = AVPlayer(url: remoteURL! as URL)
-        layer = AVPlayerLayer(player: self.player)
+    var currentTime = VideoTime()
+
+    var observation: NSKeyValueObservation?
+    
+    var playerItem: AVPlayerItem!
+    var timeObserverToken: Any?
+    
+    func addPeriodicTimeObserver() {
+        // Notify every half second
+        let timeScale = CMTimeScale(NSEC_PER_SEC)
+        let time = CMTime(seconds: 0.5, preferredTimescale: timeScale)
         
-        videoView.layer.addSublayer(layer!)
-        // Do any additional setup after loading the view, typically from a nib.
+        timeObserverToken = player?.addPeriodicTimeObserver(forInterval: time, queue: .main) { [weak self] time in
+            
+            guard let currentTime = self?.player?.currentTime().second else {
+                return
+            }
+                                                            
+            self?.currentTime.time = currentTime
+        }
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        layer?.frame = videoView.bounds
-        
+    func removePeriodicTimeObserver() {
+        if let timeObserverToken = timeObserverToken {
+            player?.removeTimeObserver(timeObserverToken)
+            self.timeObserverToken = nil
+        }
     }
     
     @IBAction func clickOnPlayBtn(_ sender: Any) {
@@ -44,7 +58,6 @@ class ViewController: UIViewController {
         default:
             pause()
         }
-        
     }
     
     
@@ -57,6 +70,35 @@ class ViewController: UIViewController {
             turnOffSound()
         }
         
+    }
+    
+}
+
+extension ViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupNavigationBar()
+        let remoteURL = NSURL(string: "https://s3-ap-northeast-1.amazonaws.com/mid-exam/Video/taeyeon.mp4")
+        self.player = AVPlayer(url: remoteURL! as URL)
+        layer = AVPlayerLayer(player: self.player)
+        
+        videoView.layer.addSublayer(layer!)
+        
+        addTimeObserver()
+        
+        addPeriodicTimeObserver()
+        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        layer?.frame = videoView.bounds
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        removePeriodicTimeObserver()
     }
     
 }
@@ -76,36 +118,42 @@ extension ViewController {
        
         player?.volume = 1.0
         volumeBtn.setImage(UIImage.asset(.volume_up), for: .normal)
-       
-        print("********TURN UP***************")
-        print("Volume \(player?.volume)")
-        print("Rate \(player?.rate)")
+    
     }
     
     func turnOffSound(){
       
         player?.volume = 0.0
         volumeBtn.setImage(UIImage.asset(.volume_off), for: .normal)
-       
-        print("-------- TURN OFF ------------")
-        print("Volume \(player?.volume)")
-        print("Rate \(player?.rate)")
+
     }
     
     func play() {
         player?.play()
         playBtn.setImage(UIImage.asset(.stop), for: .normal)
-        print("***********************")
-        print("Volume \(player?.volume)")
-        print("Rate \(player?.rate)")
+   
     }
     
     func pause() {
         player?.pause()
         playBtn.setImage(UIImage.asset(.play_button), for: .normal)
-        print("***********************")
-        print("Volume \(player?.volume)")
-        print("Rate \(player?.rate)")    }
+    }
     
+    func addTimeObserver(){
+        
+        self.observation = currentTime.observe(\.time, options: .new, changeHandler: { (time, change) in
+            guard let newValue = change.newValue, let minute = self.player?.currentTime().minute else {
+                return
+            }
+            if newValue >= 10 {
+                self.timeLabel.text = "\(minute):\(newValue)"
+            } else {
+                self.timeLabel.text = "\(minute):0\(newValue)"
+            }
+            
+            
+        })
+        
+    }
 }
 

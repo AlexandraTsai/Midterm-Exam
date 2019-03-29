@@ -94,8 +94,8 @@
                                     <action selector="volumnButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EO9-f0-WzQ"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="she-6k-Esj">
-                                <rect key="frame" x="337.5" y="557.5" width="47.5" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4:59" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="she-6k-Esj">
+                                <rect key="frame" x="337.5" y="557.5" width="27.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -115,7 +115,7 @@
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AuH-rL-4V5">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AuH-rL-4V5">
                                 <rect key="frame" x="10" y="557.5" width="27.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -143,7 +143,7 @@
                             <constraint firstItem="z1P-By-yXT" firstAttribute="trailing" secondItem="sQq-IZ-0Jq" secondAttribute="trailing" id="cvl-hW-Aly"/>
                             <constraint firstItem="oa1-6a-WLf" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="d6F-l4-dbC"/>
                             <constraint firstItem="oa1-6a-WLf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="dO9-Ra-21x"/>
-                            <constraint firstItem="she-6k-Esj" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="10" id="gmA-9Z-B1S"/>
+                            <constraint firstItem="she-6k-Esj" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-10" id="gmA-9Z-B1S"/>
                             <constraint firstItem="sQq-IZ-0Jq" firstAttribute="leading" secondItem="4O8-cG-85g" secondAttribute="trailing" constant="40" id="iSh-Qo-fjd"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="m1b-AO-I2D" secondAttribute="bottom" constant="30" id="ium-eT-yQv"/>
                             <constraint firstItem="m1b-AO-I2D" firstAttribute="leading" secondItem="L1j-k7-k7T" secondAttribute="trailing" constant="40" id="rYp-Z0-R0c"/>
@@ -157,6 +157,7 @@
                     <navigationItem key="navigationItem" title="Video Player" id="LdA-03-eKU"/>
                     <connections>
                         <outlet property="playBtn" destination="m1b-AO-I2D" id="giB-e2-acJ"/>
+                        <outlet property="timeLabel" destination="AuH-rL-4V5" id="bdT-l5-cQA"/>
                         <outlet property="videoView" destination="oa1-6a-WLf" id="Xel-t8-ba5"/>
                         <outlet property="volumeBtn" destination="D4C-Ls-2rO" id="1f4-nY-P87"/>
                     </connections>
