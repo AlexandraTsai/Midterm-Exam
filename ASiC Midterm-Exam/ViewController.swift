@@ -168,7 +168,7 @@ extension ViewController {
     func turnUpSound() {
         
         player?.volume = 1.0
-//        volumeBtn.setImage(UIImage.asset(.volume_up), for: .normal)
+
         volumeBtn.setImage(ImageAsset.volume_up.imageTemplate, for: .normal)
 
     
@@ -177,7 +177,7 @@ extension ViewController {
     func turnOffSound(){
       
         player?.volume = 0.0
-//        volumeBtn.setImage(UIImage.asset(.volume_off), for: .normal)
+
         volumeBtn.setImage(ImageAsset.volume_off.imageTemplate, for: .normal)
         
 
@@ -210,7 +210,6 @@ extension ViewController {
             } else {
                 self.timeLabel.text = "\(minute):0\(newValue)"
             }
-            
             
         })
     }
